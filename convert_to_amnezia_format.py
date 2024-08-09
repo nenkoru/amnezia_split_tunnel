@@ -6,8 +6,8 @@ if __name__ == "__main__":
     matching_files = [f for f in files if "_subsidiaries.csv" in f.name]
 
     entries = []
-    for company in matching_files:
-        with open(f"{company}_subsidiaries.csv", "r") as incsvfile:
+    for matching_file in matching_files:
+        with open(matching_file, "r") as incsvfile:
             while line := incsvfile.readline():
                 netblock = line.split(",")[0]
                 rationale = line.split(",")[5]
