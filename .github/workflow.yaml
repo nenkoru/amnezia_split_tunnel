@@ -1,0 +1,69 @@
+name: Process and Release CSV
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true  # Fetch submodules
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Run gather.sh
+      run: |
+        chmod +x ./gather.sh
+        ./gather.sh
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r Netblocktool/requirements.txt
+
+    - name: Process CSV files
+      run: |
+        python convert_to_amnezia_format.py  # Replace with your actual script name
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: amnezia_split_tunnel_hostnames
+        path: split_tunneling_amnezia.json
+
+    - name: Get current date and time
+      id: date
+      run: echo "CURRENT_DATE=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: '${{ env.CURRENT_DATE }}'  # Adjust as needed
+        release_name: 'Release ${{ env.CURRENT_DATE }}'  # Adjust as needed
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./split_tunneling_amnezia.json
+        asset_name: split_tunneling_amnezia.json
+        asset_content_type: application/json
