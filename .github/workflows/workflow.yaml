@@ -57,7 +57,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag: "${{ env.CURRENT_DATA }}"
+        tag: "test_tag"
         name: 'Release ${{ env.CURRENT_DATE }}'
         artifacts: "./split_tunneling_amnezia.json"
         makeLatest: true
