@@ -1,5 +1,5 @@
 # List of companies
-companies=("Twitter")
+companies=("Facebook" "Google" "Twitter")
 
 # Iterate over each company and execute the command
 for company in "${companies[@]}"
