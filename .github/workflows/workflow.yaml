@@ -7,6 +7,9 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron: '0 0 * * 0'  # Runs at midnight (00:00) every Sunday
+  workflow_dispatch:  # Allows manual triggering from the GitHub interface
 
 jobs:
   build-and-release:
