@@ -42,32 +42,23 @@ jobs:
         python convert_to_amnezia_format.py  # Replace with your actual script name
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: amnezia_split_tunnel_hostnames
         path: split_tunneling_amnezia.json
 
     - name: Get current date and time
       id: date
-      run: echo "CURRENT_DATE=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
+      run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: elgohr/Github-Release-Action@v5
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: '${{ env.CURRENT_DATE }}'  # Adjust as needed
-        release_name: 'Release ${{ env.CURRENT_DATE }}'  # Adjust as needed
-        draft: false
-        prerelease: false
-
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./split_tunneling_amnezia.json
-        asset_name: split_tunneling_amnezia.json
-        asset_content_type: application/json
+        name: 'Release ${{ env.CURRENT_DATE }}'
+        artifacts: "./split_tunneling_amnezia.json"
+        makeLatest: true
+        replacesArtifacts: true
+        allowUpdates: true
