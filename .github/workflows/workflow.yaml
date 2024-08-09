@@ -23,15 +23,16 @@ jobs:
       with:
         python-version: '3.12'
 
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r Netblocktool/requirements.txt
+
     - name: Run gather.sh
       run: |
         chmod +x ./gather.sh
         ./gather.sh
 
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r Netblocktool/requirements.txt
 
     - name: Process CSV files
       run: |
