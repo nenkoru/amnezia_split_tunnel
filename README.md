@@ -7,8 +7,8 @@ Just grab the latest release and download the JSON file to import into Amnezia V
 Or fork the repository and add the necessary companies that you would like to pass netblocks through the tunnel. See gather.sh:3
 
 # Credits
-NetblockTool - Find netblocks owned by a company[1]
-Amnezia VPN Client - Open-source VPN client, with a key feature that enables you to deploy your own VPN server on your server.[2]
+- NetblockTool - Find netblocks owned by a company[1]
+- Amnezia VPN Client - Open-source VPN client, with a key feature that enables you to deploy your own VPN server on your server.[2]
 
 [1] https://github.com/NetSPI/NetblockTool
 
